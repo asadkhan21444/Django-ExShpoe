@@ -1,0 +1,80 @@
+{% extends "app/base.html" %}
+
+{% block main_content %}
+{% load cart %}
+<div class="container-fluid mt-4">
+  <div class="row">
+
+    <!-- Filter Sidebar -->
+    <div class="col-lg-3 col-md-4 mb-4">
+      <div class="list-group shadow-sm">
+        <a href="/" class="list-group-item list-group-item-action active bg-primary border-primary">
+          All Categories
+        </a> 
+        {% for category in categories %}
+        <a href="/?category={{ category.id }}" class="list-group-item list-group-item-action">
+          {{ category.name }}
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- All Products Section -->
+    <div id="products" class="col-lg-9 col-md-8">
+      <div class="row">
+        {% for product in products %}
+        <div class="col-xl-4 col-lg-6 col-md-6 col-sm-12 mb-4">
+          <div class="card h-100 shadow-sm border-0" id="product-{{ product.id }}">
+            
+            <!-- Product Image -->
+            {% if product.image %}
+              <img src="{{ product.image.url }}" alt="{{ product.name }}" 
+                   class="card-img-top" style="height: 220px; object-fit: cover;">
+            {% endif %}
+            
+            <div class="card-body d-flex flex-column text-center">
+              <h5 class="card-title text-dark">{{ product.name }}</h5>
+              <p class="card-text text-muted small">{{ product.price }}</p>
+
+              {% if product|is_in_cart:cart %}
+              <div class="d-flex justify-content-center align-items-center mt-2 mb-2">
+                  <!-- Remove Button -->
+                  <form action="/#{{product.id}}" method="post" class="me-2">
+                      {% csrf_token %}
+                      <input type="hidden" name="product" value="{{ product.id }}">
+                      <input type="hidden" name="remove" value="True">
+                      <input type="submit" value=" - " class="btn btn-secondary">
+                  </form>
+
+                  <!-- Quantity Display -->
+                  {% comment %} <div class="text-center px-2">{{ cart|get_item:product.id}} in cart</div> {% endcomment %}
+                  <div class="text-center px-2">{{ cart|get_item:product.id }} in cart</div>
+
+                  <!-- Add Button -->
+                  <form action="/#{{product.id}}" method="post" class="ms-2">
+                      {% csrf_token %}
+                      <input type="hidden" name="product" value="{{ product.id }}">
+                      <input type="submit" value=" + " class="btn btn-secondary">
+                  </form>
+              </div>
+              {% else %}
+              <!-- Product removed or not in cart, show only Add button -->
+              <form action="/#{{product.id}}" method="post" class="mt-auto">
+                  {% csrf_token %}
+                  <input type="hidden" name="product" value="{{ product.id }}">
+                  <input type="submit" class="btn btn-outline-primary w-100" value="Add To Cart">
+              </form>
+              {% endif %}
+
+
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <!-- End Products Section -->
+
+  </div>
+</div>
+{% endblock main_content %}

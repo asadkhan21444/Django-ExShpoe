@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css">
+
+  <title>Products</title>
+</head>
+
+
+<!--navbar-->
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+
+    <!-- LEFT SIDE -->
+    <a class="navbar-brand" href="{% url "home" %}">Ex Shope</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <!-- LEFT MENU -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" href="{% url "home" %}">Store</a>
+        </li>
+      </ul>
+
+      <!-- RIGHT MENU -->
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'cart' %}">
+                    Cart
+                    {% if request.session.cart %}
+                    <span class="badge bg-info text-dark">{{ request.session.cart|length }}
+                    </span>
+                    {% endif %}
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <a class="nav-link" href=" {% url "order" %}">order </a>
+              </li>
+              {% if request.session.customer %}
+              <li class="nav-item">
+                  <a class="nav-link text-danger" href="{% url 'logout' %}">Logout</a>
+              </li>
+              {% else %}
+             
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'login' %}">Login</a>
+              </li>
+              
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+              </li>
+              {% endif %}
+
+
+        {% comment %} <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button"
+             data-bs-toggle="dropdown">
+            Profile
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="#">My Account</a></li>
+            <li><a class="dropdown-item" href="#">Orders</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Settings</a></li>
+          </ul>
+        </li> {% endcomment %}
+
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+<!--======================================================================================-->
+
+{% block main_content %}
+
+{% endblock main_content %}
+
+
+
+<!--======================================================================================-->                  
+
+
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
